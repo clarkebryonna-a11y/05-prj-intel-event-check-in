@@ -31,7 +31,7 @@ body {
       rgba(0, 104, 181, 0.9) 50%,
       rgba(0, 60, 116, 0.9) 100%
     ),
-    url("img/bg.jpg");
+    url("/img/bg.jpg");
   background-size: cover;
   background-position: center;
   text-align: center;
@@ -147,6 +147,10 @@ button:hover {
   box-shadow: 0 6px 15px rgba(0, 113, 197, 0.3);
 }
 
+button:active {
+  transform: translateY(0);
+}
+
 #checkInBtn {
   flex-shrink: 0;
   white-space: nowrap;
@@ -160,22 +164,6 @@ button:hover {
 button .fas {
   font-size: 18px;
   margin-right: 10px;
-}
-
-.attendance-header i {
-  font-size: 22px;
-  margin-right: 8px;
-}
-
-/* Attendance section spacing */
-.attendance-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-bottom: 15px;
-  font-size: 17px;
-  color: #64748b;
 }
 
 /* Attendance tracker styling */
@@ -216,16 +204,18 @@ button .fas {
   font-size: 17px;
 }
 
-/* Progress container - simplified */
+/* Progress container */
 .progress-container {
   width: 100%;
   max-width: 500px;
-  height: 16px;
-  background-color: #e0e0e0;
+  height: 18px;
+  background-color: #e2e8f0;
+  border: 1px solid #cbd5e1;
   border-radius: 10px;
   overflow: hidden;
-  margin: 8px auto;
+  margin: 10px auto;
   position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .progress-bar {
@@ -235,11 +225,6 @@ button .fas {
   background-image: linear-gradient(90deg, #0071c5, #00aeef);
   border-radius: 10px;
   transition: width 0.6s ease;
-}
-
-/* Adjust spacing between components */
-.container {
-  margin-top: 0;
 }
 
 /* Messages */
@@ -253,17 +238,21 @@ button .fas {
   display: none;
 }
 
+#greeting.visible {
+  display: block;
+}
+
 .success-message {
   background-color: #e8f4fc;
   color: #003c71;
+  border: 1px solid #b9e3fc;
 }
 
-/* Counter */
-#attendeeCount {
-  color: #0071c5;
-  font-size: 24px;
-  font-weight: 700;
-  margin: 0 2px;
+.celebration {
+  background-color: #fef9c3 !important;
+  color: #854d0e !important;
+  border: 2px solid #eab308 !important;
+  font-weight: 600;
 }
 
 /* Footer */
@@ -301,7 +290,15 @@ select {
   background: white;
   color: #2c3e50;
   cursor: pointer;
-  min-width: 140px;
+  min-width: 160px;
+  outline: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+select:focus {
+  border-color: #0071c5;
+  box-shadow: 0 0 0 4px rgba(0, 113, 197, 0.15);
 }
 
 /* Team Stats */
@@ -324,28 +321,238 @@ select {
 }
 
 .team-card {
-  padding: 15px;
-  border-radius: 12px;
+  position: relative;
+  padding: 16px 14px;
+  border-radius: 14px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Team card colors */
+.team-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Background fill layer that fills up the box */
+.team-card-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.team-card.water .team-card-fill {
+  background: linear-gradient(90deg, #0071c5, #00aeef);
+}
+
+.team-card.zero .team-card-fill {
+  background: linear-gradient(90deg, #16a34a, #4ade80);
+}
+
+.team-card.power .team-card-fill {
+  background: linear-gradient(90deg, #ea580c, #fb923c);
+}
+
+/* Content inside the card */
+.team-card-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Team card base background colors */
 .team-card.water {
   background-color: #e8f7fc;
+  border-color: #b9e3fc;
 }
 .team-card.zero {
   background-color: #ecfdf3;
+  border-color: #bbf7d0;
 }
 .team-card.power {
   background-color: #fff7ed;
+  border-color: #fed7aa;
 }
 
 .team-name {
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   color: #475569;
+}
+
+.team-count {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.team-count.pulse {
+  transform: scale(1.2);
+}
+
+/* Team progress bar track inside the card */
+.team-progress-track {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.team-progress-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 6px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.team-card.water .team-progress-bar {
+  background: linear-gradient(90deg, #0071c5, #00aeef);
+}
+
+.team-card.zero .team-progress-bar {
+  background: linear-gradient(90deg, #15803d, #22c55e);
+}
+
+.team-card.power .team-progress-bar {
+  background: linear-gradient(90deg, #c2410c, #ea580c);
+}
+
+/* Reset or subtle management option */
+.action-links {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.btn-secondary-link {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 400;
+  min-width: auto;
+  height: auto;
+  padding: 4px 8px;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.btn-secondary-link:hover {
+  background: none;
+  color: #64748b;
+  transform: none;
+  box-shadow: none;
+  text-decoration: underline;
+}
+
+/* Attendees List Section */
+.attendees-section {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 2px solid #f1f5f9;
+  text-align: left;
+}
+
+.attendees-section h3 {
+  color: #64748b;
+  font-size: 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.attendees-empty {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 15px;
+  font-style: italic;
+  padding: 14px;
+}
+
+.attendees-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.attendee-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.attendee-item:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.attendee-item-name {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.attendee-item-name i {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.attendee-item-badge {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.attendee-item-badge.water {
+  background-color: #e8f7fc;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+}
+
+.attendee-item-badge.zero {
+  background-color: #ecfdf3;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.attendee-item-badge.power {
+  background-color: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
 }
 
 /* Mobile responsive */

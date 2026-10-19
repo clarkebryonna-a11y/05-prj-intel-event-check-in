@@ -67,19 +67,43 @@
       <div class="team-stats">
         <h3>Team Attendance</h3>
         <div class="teams-grid">
-          <div class="team-card water">
-            <span class="team-name">🌊 Team Water Wise</span>
-            <span class="team-count" id="waterCount">0</span>
+          <div class="team-card water" id="waterCard">
+            <div class="team-card-fill" id="waterFill"></div>
+            <div class="team-card-header">
+              <span class="team-name">🌊 Team Water Wise</span>
+              <span class="team-count" id="waterCount">0</span>
+            </div>
+            <div class="team-progress-track">
+              <div class="team-progress-bar" id="waterBar"></div>
+            </div>
           </div>
-          <div class="team-card zero">
-            <span class="team-name">🌿 Team Net Zero</span>
-            <span class="team-count" id="zeroCount">0</span>
+          <div class="team-card zero" id="zeroCard">
+            <div class="team-card-fill" id="zeroFill"></div>
+            <div class="team-card-header">
+              <span class="team-name">🌿 Team Net Zero</span>
+              <span class="team-count" id="zeroCount">0</span>
+            </div>
+            <div class="team-progress-track">
+              <div class="team-progress-bar" id="zeroBar"></div>
+            </div>
           </div>
-          <div class="team-card power">
-            <span class="team-name">⚡ Team Renewables</span>
-            <span class="team-count" id="powerCount">0</span>
+          <div class="team-card power" id="powerCard">
+            <div class="team-card-fill" id="powerFill"></div>
+            <div class="team-card-header">
+              <span class="team-name">⚡ Team Renewables</span>
+              <span class="team-count" id="powerCount">0</span>
+            </div>
+            <div class="team-progress-track">
+              <div class="team-progress-bar" id="powerBar"></div>
+            </div>
           </div>
         </div>
+
+      <!-- Attendees list -->
+      <div class="attendees-section" id="attendeesSection">
+        <h3>Attendees (<span id="attendeeListCount">0</span>)</h3>
+        <p class="attendees-empty" id="attendeesEmpty">No attendees checked in yet.</p>
+        <ul class="attendees-list" id="attendeesList"></ul>
       </div>
     </div>
 
